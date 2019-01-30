@@ -1,12 +1,40 @@
 let express = require('express');
 let fs = require('fs');
 let app = express();
-let dataFile = require('./users.json');
+let dataFile = require('./flights.json');
 let bodyParser = require('body-parser');
+const querystring = require('querystring');
+
+// let getFlightById = 
+
+
+var http = require('http'),
+    url = require('url'),
+    query = url.parse(req.url,true).query;
+
+    app.get(query, (req, res, next) => {
+      // var query = url.parse(req.url,true).query;
+      res.end(JSON.stringify(query));
+      // fs.writeFileSync('departures.json', departuresFile);
+      // fs.readFile('departures.json', function(err, data){
+      //   console.log(data);
+      //   res.end(data);
+      // })
+    });
+
+// http.createServer(function (req, res) {
+    
+//     res.end(JSON.stringify(query));
+// }).listen(3333);
+// console.log("Server running at http://localhost:3333/");
+
+
+
+
+
 // let dataFile = "";
 
 //parse incoming requests data
-
 // app.use(bodyParser.urlencoded({extended: false}));
 // app.use(bodyParser.json());
 
@@ -23,20 +51,53 @@ let bodyParser = require('body-parser');
 //   }
 // });
 
+// let test = JSON.stringify(dataFile); 
+// fs.writeFileSync('test.json', test);  
 
+let arrivals = dataFile.filter(flight => flight.ArrDep == 'A');
+let arrivalsFile = JSON.stringify(arrivals);
+let departures = dataFile.filter(flight => flight.ArrDep == 'D');
+let departuresFile = JSON.stringify(departures);
+let flightnumber = dataFile.filter(flight => flight.FlightNo == flightNumber);
+// fs.writeFileSync('arrivals.json', arrivals);
 
-
-
-app.get("/listAllUsers", (req, res, next) => {
-  res.end(dataFile);
+app.get("/flights", (req, res, next) => {
+  // res.end(dataFile);
 //   res.status(200).send({
-//  dataFile
+// test
 //   })
 
-  // fs.readFile(dataFile, function(err, data){
-  //   console.log(data);
-  //   res.end(data);
-  // })
+  fs.readFile("flights.json", function(err, data){
+    console.log(data);
+    res.end(data);
+  })
+});
+
+app.get("/flights/arrivals", (req, res, next) => {
+
+  fs.writeFileSync('arrivals.json', arrivalsFile);
+  fs.readFile('arrivals.json', function(err, data){
+    console.log(data);
+    res.end(data);
+  })
+});
+
+app.get("/flights/departures", (req, res, next) => {
+
+  fs.writeFileSync('departures.json', departuresFile);
+  fs.readFile('departures.json', function(err, data){
+    console.log(data);
+    res.end(data);
+  })
+});
+
+app.get("/flights/{flightNumber}", (req, res, next) => {
+
+  fs.writeFileSync('departures.json', departuresFile);
+  fs.readFile('departures.json', function(err, data){
+    console.log(data);
+    res.end(data);
+  })
 });
 
 // function searchByKey(arr, key){
