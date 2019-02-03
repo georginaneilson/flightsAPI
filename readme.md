@@ -1,8 +1,22 @@
-https://flaviocopes.com/nodejs-parse-json/
-https://stackabuse.com/reading-and-writing-json-files-with-node-js/
-https://medium.com/@purposenigeria/build-a-restful-api-with-node-js-and-express-js-d7e59c7a3dfb
+# FlightsAPI
 
+A RESTful API built with Node.js and express.
 
-https://expressjs.com/en/guide/routing.html
-https://www.google.com/search?lei=ihJSXKKUA6nlgwfhopLwCA&q=express%20get%20url%20parameters&ved=2ahUKEwiH176btZbgAhUk5uAKHWj-Bu0QsKwBKAB6BAgBEAE&biw=1280&bih=663&dpr=2
-https://nodejs.org/api/querystring.html
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+-Node.js
+-NPM
+
+### Installing and running
+
+Install the node modules using npm
+
+```
+npm install
+```
+
+run `npm start` in the terminal to start the server

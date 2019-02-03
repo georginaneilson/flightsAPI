@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const dataFile = require('./flights.json');
+let dataFile = require('./flights.json');
 
+//BEGIN: routes
 app.get("/flights", (req, res, next) => {
-res.send(dataFile);
+  res.send(dataFile);
 });
 
 app.get("/flights/arrivals", (req, res, next) => {
@@ -16,29 +17,53 @@ app.get("/flights/departures", (req, res, next) => {
   res.send(departures);
 });
 
-app.get('/test/:userId', function (req, res) {
-  console.log(req.params);
-  let params = req.params.userId;
-  let id = params.userId;
-  console.log(id);
-  let idFound = dataFile.filter(flight => flight.FlightNo == id);
-  console.log(idFound);
-  res.send(idFound);
+app.get('/flights/flight/:flightId', function (req, res) {
+  let params = req.params.flightId;
+  let flightNo = dataFile.filter(flight => flight.FlightNo == params);
+  res.send(flightNo);
 })
 
- // Handle 404
- app.use(function (req, res) {
-   res.status(404).send('404: File not found');
-  //  res.render('404.jade', {
-  //    title: '404: File Not Found'
-  //  });
- 
- });
+//BEGIN: Error handling
 
- // Handle 500
- app.use(function (error, req, res, next) {
-   res.status(500).send('Internal server error: ' + error);
- });
+// Let the user know the API doesnt (currently) take post/delete/put
+app.post('*', function (req, res) {
+  res.status(404).json({
+    status: '404',
+    message: 'API does not accept POST'
+  });
+});
+
+app.put('*', function (req, res) {
+  res.status(404).json({
+    status: '404',
+    message: 'API does not accept PUT'
+  });
+});
+
+app.delete('*', function (req, res) {
+  res.status(404).json({
+    status: '404',
+    message: 'API does not accept DELETE'
+  });
+});
+
+// }
+
+// Handle 404s
+app.use(function (req, res) {
+  res.status(404).json({
+    status: '404',
+    message: 'File not found'
+  });
+});
+
+// Handle 500s
+app.use(function (error, req, res, next) {
+  res.status(500).json({
+    status: '500',
+    message: 'Internal server error: ' + error
+  });
+});
 
 app.listen(3000, () => {
   console.log('Server running on port 3000')
